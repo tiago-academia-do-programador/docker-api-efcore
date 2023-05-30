@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  web-api:
+    container_name: weather-forecast-api
+    build:
+      context: "../src"
+      dockerfile: "./web/DockerAPI.WebAPI/Dockerfile"
+    ports:
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5001
+    depends_on:
+      - sqlserver-db
+
+  sqlserver-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: weather-forecast-sql
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "sBC3Ax0mRg9_AO2"
+      ACCEPT_EULA: "Y"
